@@ -1,8 +1,17 @@
-<div>
-    @if (document) {
-    <h2>{{ document.filename }}</h2>
-    <p>Category: {{ document.category }}</p>
-    <p>Uploaded: {{ document.metadata.uploaded_at }}</p>
-    <p>Status: {{ document.metadata.processing_status }}</p>
-    }
-</div>
+<div class="document-detail-grid">
+    <div class="document-viewer-container">
+      <app-document-viewer [document]="document()"></app-document-viewer>
+    </div>
+    <div class="kvp-editor-container">
+      <app-kvp-editor 
+        [kvps]="kvps()" 
+        (create)="createKvp($event)" 
+        (kvpUpdate)="updateKvp($event)" 
+        (delete)="deleteKvp($event)" 
+        (extract)="extractKvps($event)">
+      </app-kvp-editor>
+    </div>
+    <div class="chat-container">
+      <app-chat [chatHistory]="chatHistory()" (sendMessage)="sendMessage($event)"></app-chat>
+    </div>
+  </div>

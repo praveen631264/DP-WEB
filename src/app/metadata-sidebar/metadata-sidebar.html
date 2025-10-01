@@ -1,8 +1,8 @@
 <div class="metadata-container">
   <h3>Metadata</h3>
-  @if (document && document.metadata.kvp) {
+  @if (document() && document()?.metadata?.kvp) {
     <ul class="metadata-list">
-        @for (meta of document.metadata.kvp | keyvalue; track meta.key) {
+        @for (meta of document()?.metadata?.kvp; track meta.key) {
             <li class="metadata-item">
                 <span class="metadata-key">{{ meta.key }}:</span>
                 <span class="metadata-value">{{ meta.value }}</span>

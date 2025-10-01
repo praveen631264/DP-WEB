@@ -1,6 +1,7 @@
 import { inject, Injectable, computed } from '@angular/core';
 import { DocumentService } from './document.service';
 import { CategoryService } from './category.service';
+import { map } from 'rxjs/operators';
 
 export interface DashboardStats {
   totalDocuments: number;
@@ -17,11 +18,13 @@ export class DashboardService {
   private categoryService = inject(CategoryService);
 
   getDashboardStats() {
-    return computed(() => ({
-      totalDocuments: this.documentService.getDocuments().length,
-      documentsInTrash: this.documentService.getTrashedDocuments().length,
-      categoriesCount: this.categoryService.getCategories().length,
-      averageProcessingTime: 0, // Placeholder
-    }));
+    return this.documentService.getDocuments().pipe(
+      map(documents => ({
+        totalDocuments: documents.length,
+        documentsInTrash: this.documentService.getTrashedDocuments().length,
+        categoriesCount: this.categoryService.getCategories().length,
+        averageProcessingTime: 0, // Placeholder
+      }))
+    );
   }
 }

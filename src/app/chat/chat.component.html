@@ -1,11 +1,13 @@
 <div class="chat-container">
-  <div class="chat-header">
-    <h2>Global AI Chat</h2>
+  <div class="chat-history">
+    @for (message of chatHistory(); track message.content) {
+      <div class="chat-message" [class.user]="message.role === 'user'" [class.ai]="message.role === 'ai'">
+        <div class="message-content">{{ message.content }}</div>
+      </div>
+    }
   </div>
-  <div class="chat-messages">
-    </div>
   <div class="chat-input">
-    <input type="text" placeholder="Ask a question across all documents...">
-    <button>Send</button>
+    <textarea [(ngModel)]="newMessage" placeholder="Type your message..."></textarea>
+    <button (click)="onSendMessage()">Send</button>
   </div>
 </div>

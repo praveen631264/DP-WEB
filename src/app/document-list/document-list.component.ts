@@ -19,7 +19,15 @@ export class DocumentListComponent {
   constructor() {
     this.route.queryParams.subscribe(params => {
       const categoryId = params['category'];
-      this.documents = this.documentService.getDocuments(categoryId);
+      if (categoryId) {
+        this.documentService.getDocuments(categoryId).subscribe(documents => {
+          this.documents = documents;
+        });
+      } else {
+        this.documentService.getDocuments().subscribe(documents => {
+          this.documents = documents;
+        });
+      }
     });
   }
 }

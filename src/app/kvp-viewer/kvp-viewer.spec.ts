@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DocumentEdit } from './document-edit';
+import { KvpViewer } from './kvp-viewer';
 
-describe('DocumentEdit', () => {
-  let component: DocumentEdit;
-  let fixture: ComponentFixture<DocumentEdit>;
+describe('KvpViewer', () => {
+  let component: KvpViewer;
+  let fixture: ComponentFixture<KvpViewer>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DocumentEdit]
+      imports: [KvpViewer]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DocumentEdit);
+    fixture = TestBed.createComponent(KvpViewer);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

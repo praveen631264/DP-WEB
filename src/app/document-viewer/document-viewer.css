@@ -1,0 +1,13 @@
+.container {
+  padding: 20px;
+}
+
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.doc-content {
+  width: 100%;
+}

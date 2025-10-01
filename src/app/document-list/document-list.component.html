@@ -1,5 +1,5 @@
 <ul>
-  @for (doc of documents) {
+  @for (doc of documents; track doc.id) {
     <li><a [routerLink]="['/documents', doc.id]">{{ doc.filename }}</a></li>
   }
 </ul>

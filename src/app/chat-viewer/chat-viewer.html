@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="header">Chat</div>
+  @if (chat(); as chat) {
+    <div class="chat-history">
+      @for (message of chat; track message) {
+        <div class="chat-message">{{ message }}</div>
+      }
+    </div>
+  } @else {
+    <p>No chat history to display.</p>
+  }
+  <div class="chat-input">
+    <input #messageInput type="text" placeholder="Type your message...">
+    <button (click)="sendMessage(messageInput.value); messageInput.value = ''">Send</button>
+  </div>
+</div>

@@ -1,26 +1,43 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { DocumentService } from '../document.service';
-import { Document } from '../models/document.model';
-import { CommonModule } from '@angular/common';
+
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { DocumentDetailStateService } from '../document-detail-state.service';
+import { DocumentViewer } from '../document-viewer/document-viewer';
+import { KvpEditorComponent } from '../kvp-editor/kvp-editor.component';
+import { ChatComponent } from '../chat/chat.component';
+import { Document } from '../document.service';
+import { KeyValuePair } from '../kvp.service';
 
 @Component({
   selector: 'app-document-detail',
-  imports: [CommonModule],
+  imports: [DocumentViewer, KvpEditorComponent, ChatComponent],
   templateUrl: './document-detail.html',
   styleUrls: ['./document-detail.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DocumentDetailComponent {
-  private route = inject(ActivatedRoute);
-  private documentService = inject(DocumentService);
-  
-  document: Document | undefined;
+export class DocumentDetail {
+  document = input.required<Document>();
+  extract = output<string>();
+  private state = inject(DocumentDetailStateService);
+  kvps = this.state.kvps;
+  chatHistory = this.state.chatHistory;
 
-  constructor() {
-    const documentId = this.route.snapshot.paramMap.get('id');
-    if (documentId) {
-      this.document = this.documentService.getDocument(documentId);
-    }
+  createKvp(kvp: KeyValuePair) {
+    this.state.createKvp(kvp);
+  }
+
+  updateKvp(kvp: KeyValuePair) {
+    this.state.updateKvp(kvp);
+  }
+
+  deleteKvp(kvp: KeyValuePair) {
+    this.state.deleteKvp(kvp);
+  }
+
+  sendMessage(message: string) {
+    this.state.sendMessage(message);
+  }
+
+  extractKvps(prompt: string) {
+    this.extract.emit(prompt);
   }
 }

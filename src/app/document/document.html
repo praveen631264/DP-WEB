@@ -1,10 +1,10 @@
 <div class="document-detail-container">
-  @if (doc(); as document) {
+  @if (document(); as doc) {
     <!-- Panel 1: KVP Editor -->
     <div class="kvp-editor-panel">
       <h2>Key-Value Pairs</h2>
       <div class="kvp-list">
-        @for(kvp of document.metadata.kvp; track kvp.key) {
+        @for(kvp of doc.metadata.kvp; track kvp.key) {
           <div class="kvp-item">
             <span class="kvp-key">{{ kvp.key }}:</span>
             <span class="kvp-value">{{ kvp.value }}</span>
@@ -18,23 +18,23 @@
     <!-- Panel 2: Document Viewer -->
     <div class="doc-viewer-panel">
       <div class="doc-header">
-        <h1>{{ document.title }}</h1>
+        <h1>{{ doc.filename }}</h1>
         <div class="doc-meta">
-          <span class="meta-item">{{ document.category }}</span>
+          <span class="meta-item">{{ doc.category }}</span>
         </div>
       </div>
       <div class="doc-content">
-        <pre>{{ document.content }}</pre>
+        <pre>{{ doc.content }}</pre>
       </div>
-       <div class="doc-actions">
-        <a class="edit-link" [routerLink]="['/documents', document.id, 'edit']">Edit</a>
-        <button class="delete-btn" (click)="deleteDocument(document)">Delete</button>
+      <div class="doc-actions">
+        <a class="edit-link" [routerLink]="['/documents', doc.id, 'edit']">Edit</a>
+        <button class="delete-btn" (click)="deleteDocument(doc)">Delete</button>
       </div>
     </div>
 
     <!-- Panel 3: Document-Specific AI Chat -->
     <div class="chat-panel">
-      <app-chat></app-chat>
+      <app-chat [chatHistory]="[]"></app-chat>
     </div>
 
   } @else {

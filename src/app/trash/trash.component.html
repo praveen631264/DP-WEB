@@ -4,7 +4,7 @@
     <ul class="trash-list">
       @for(doc of trashedDocuments; track doc.id) {
         <li class="trash-item">
-          <span>{{ doc.title }}</span>
+          <span>{{ doc.filename }}</span>
           <div>
             <button (click)="restoreDocument(doc.id)">Restore</button>
             <button (click)="permanentlyDeleteDocument(doc.id)">Delete Permanently</button>

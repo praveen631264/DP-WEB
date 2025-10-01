@@ -1,80 +1,66 @@
 import { Injectable, signal } from '@angular/core';
 import { Document } from './models/document.model';
+import { Observable, of } from 'rxjs';
+export type { Document };
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
-  private documents = signal<Document[]>([
-    { 
-      id: '1', 
-      filename: 'My First Document', 
-      content: 'This is the content of my first document.', 
-      category: 'Personal', 
-      lastModified: new Date(),
-      metadata: { 
-        uploaded_at: new Date().toISOString(),
-        processing_status: 'Complete',
-        kvp: [{ key: 'Author', value: 'John Doe' }, { key: 'Status', value: 'Draft' }]
-      }
-    },
-    { 
-      id: '2', 
-      filename: 'Work Notes', 
-      content: 'These are my work notes.', 
-      category: 'Work', 
-      lastModified: new Date(),
-      metadata: { 
-        uploaded_at: new Date().toISOString(),
-        processing_status: 'In Progress',
-        kvp: [{ key: 'Project', value: 'Apollo' }]
-      }
-    },
-    { 
-      id: '3', 
-      filename: 'Vacation Plans', 
-      content: 'Here are my vacation plans.', 
-      category: 'Travel', 
-      lastModified: new Date(),
-      metadata: { 
-        uploaded_at: new Date().toISOString(),
-        processing_status: 'Complete',
-        kvp: []
-      }
-    },
-  ]);
+  private documents = signal<Document[]>([]);
   private trashedDocuments = signal<Document[]>([]);
 
-  getDocuments(category?: string) {
-    if (category) {
-      return this.documents().filter(doc => doc.category === category);
+  constructor() {
+    // Create mock data
+    const mockDocuments: Document[] = [
+      {
+        id: '1',
+        title: 'My First Document',
+        filename: 'document1.pdf',
+        content: 'This is the content of my first document.',
+        category: 'Work',
+        lastModified: new Date(),
+        metadata: {
+          uploaded_at: new Date().toISOString(),
+          processing_status: 'Complete'
+        }
+      },
+      {
+        id: '2',
+        title: 'My Second Document',
+        filename: 'document2.docx',
+        content: 'This is the content of my second document.',
+        category: 'Personal',
+        lastModified: new Date(),
+        metadata: {
+          uploaded_at: new Date().toISOString(),
+          processing_status: 'Pending'
+        }
+      }
+    ];
+
+    this.documents.set(mockDocuments);
+  }
+
+  getDocuments(categoryId?: string): Observable<Document[]> {
+    if (categoryId) {
+      return of(this.documents().filter(doc => doc.category === categoryId));
     }
-    return this.documents();
+    return of(this.documents());
   }
 
-  getDocument(id: string): Document | undefined {
-    return this.documents().find(doc => doc.id === id);
+  getDocument(id: string): Observable<Document> {
+    const doc = this.documents().find(doc => doc.id === id);
+    return of(doc!);
   }
 
-  addDocument(doc: Document) {
-    this.documents.set([...this.documents(), doc]);
+  addDocument(document: Document) {
+    this.documents.set([...this.documents(), document]);
   }
 
-  updateDocument(updatedDoc: Document) {
-    const index = this.documents().findIndex(doc => doc.id === updatedDoc.id);
-    if (index !== -1) {
-      const newDocs = [...this.documents()];
-      newDocs[index] = updatedDoc;
-      this.documents.set(newDocs);
-    }
-  }
-
-  deleteDocument(id: string) {
-    const doc = this.documents().find(d => d.id === id);
-    if (doc) {
-      this.documents.set(this.documents().filter(d => d.id !== id));
-      this.trashedDocuments.set([...this.trashedDocuments(), doc]);
-    }
+  deleteDocument(document: Document) {
+    this.documents.set(this.documents().filter(d => d.id !== document.id));
+    this.trashedDocuments.set([...this.trashedDocuments(), document]);
   }
 
   getTrashedDocuments() {
@@ -90,6 +76,6 @@ export class DocumentService {
   }
 
   permanentlyDeleteDocument(id: string) {
-    this.trashedDocuments.set(this.trashedDocuments().filter(doc => doc.id !== id));
+    this.trashedDocuments.set(this.trashedDocuments().filter(d => d.id !== id));
   }
 }

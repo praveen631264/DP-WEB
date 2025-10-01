@@ -1,5 +1,6 @@
 export interface Document {
   id: string;
+  title: string;
   filename: string;
   content: string;
   category: string;

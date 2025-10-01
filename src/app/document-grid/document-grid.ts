@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { DocumentService, Document } from '../document.service';
+import { DocumentService } from '../document.service';
+import { Document } from '../models/document.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,7 +19,15 @@ export class DocumentGrid {
   constructor() {
     this.route.queryParams.subscribe(params => {
       const categoryId = params['category'];
-      this.documents = this.documentService.getDocuments(categoryId);
+      if (categoryId) {
+        this.documentService.getDocuments(categoryId).subscribe(documents => {
+          this.documents = documents;
+        });
+      } else {
+        this.documentService.getDocuments().subscribe(documents => {
+          this.documents = documents;
+        });
+      }
     });
   }
 }

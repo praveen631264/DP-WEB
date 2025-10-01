@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { DocumentService, Document } from '../document.service';
+import { DocumentService } from '../document.service';
+import { Document } from '../models/document.model';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recent-documents',
@@ -12,5 +14,5 @@ import { CommonModule } from '@angular/common';
 })
 export class RecentDocuments {
   private documentService = inject(DocumentService);
-  recentDocuments: Document[] = this.documentService.getDocuments();
+  recentDocuments$: Observable<Document[]> = this.documentService.getDocuments();
 }

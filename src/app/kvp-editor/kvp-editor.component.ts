@@ -1,40 +1,75 @@
+
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
-import { Kvp } from '../kvp.service';
-import { CommonModule } from '@angular/common';
+import { KeyValuePair } from '../kvp.service';
 
 @Component({
   selector: 'app-kvp-editor',
-  imports: [CommonModule],
   templateUrl: './kvp-editor.component.html',
   styleUrls: ['./kvp-editor.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KvpEditorComponent {
-  kvps = input.required<Kvp[]>();
-  deleteKvp = output<Kvp>();
-  updateKvp = output<{ oldKvp: Kvp, newKvp: Kvp }>();
+  kvps = input.required<KeyValuePair[]>();
+  kvpUpdate = output<KeyValuePair>();
+  create = output<KeyValuePair>();
+  delete = output<KeyValuePair>();
+  extract = output<string>();
 
-  editingKvp = signal<Kvp | null>(null);
-  editedKey = signal('');
-  editedValue = signal('');
+  newKvp = signal<KeyValuePair | null>(null);
 
-  onDelete(kvp: Kvp) {
-    this.deleteKvp.emit(kvp);
+  createKvp() {
+    this.newKvp.set({ id: '', key: '', value: '', isEditing: true });
   }
 
-  onEdit(kvp: Kvp) {
-    this.editingKvp.set(kvp);
-    this.editedKey.set(kvp.key);
-    this.editedValue.set(kvp.value);
+  saveNewKvp() {
+    if (this.newKvp()) {
+      this.create.emit(this.newKvp()!);
+      this.newKvp.set(null);
+    }
   }
 
-  onSave(oldKvp: Kvp) {
-    const newKvp = { key: this.editedKey(), value: this.editedValue() };
-    this.updateKvp.emit({ oldKvp, newKvp });
-    this.editingKvp.set(null);
+  cancelNewKvp() {
+    this.newKvp.set(null);
   }
 
-  onCancel() {
-    this.editingKvp.set(null);
+  editKvp(kvp: KeyValuePair) {
+    const newKvp = { ...kvp, isEditing: true };
+    this.kvpUpdate.emit(newKvp);
+  }
+
+  saveKvp(kvp: KeyValuePair) {
+    const newKvp = { ...kvp, isEditing: false };
+    this.kvpUpdate.emit(newKvp);
+  }
+
+  cancelEdit(kvp: KeyValuePair) {
+    const newKvp = { ...kvp, isEditing: false };
+    this.kvpUpdate.emit(newKvp);
+  }
+
+  deleteKvp(kvp: KeyValuePair) {
+    this.delete.emit(kvp);
+  }
+
+  updateKvpKey(kvp: KeyValuePair, event: Event) {
+    const newKvp = { ...kvp, key: (event.target as HTMLInputElement).value };
+    this.kvpUpdate.emit(newKvp);
+  }
+
+  updateKvpValue(kvp: KeyValuePair, event: Event) {
+    const newKvp = { ...kvp, value: (event.target as HTMLInputElement).value };
+    this.kvpUpdate.emit(newKvp);
+  }
+
+  updateNewKvpKey(event: Event) {
+    if (this.newKvp()) {
+      this.newKvp.set({ ...this.newKvp()!, key: (event.target as HTMLInputElement).value });
+    }
+  }
+
+  updateNewKvpValue(event: Event) {
+    if (this.newKvp()) {
+      this.newKvp.set({ ...this.newKvp()!, value: (event.target as HTMLInputElement).value });
+    }
   }
 }

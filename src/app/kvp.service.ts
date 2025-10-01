@@ -1,49 +1,44 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
-export interface Kvp {
+export interface KeyValuePair {
+  id: string;
   key: string;
   value: string;
+  isEditing: boolean;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class KvpService {
+  private http = inject(HttpClient);
 
   constructor() { }
 
-  extractKvps(docContent: string, prompt: string): Kvp[] {
-    console.log('Extracting KVPs from document with prompt:', prompt);
+  getKvps(docId: string): Observable<KeyValuePair[]> {
+    // MOCK DATA
+    return of([
+      { id: '1', key: 'First Name', value: 'John', isEditing: false },
+      { id: '2', key: 'Last Name', value: 'Doe', isEditing: false },
+      { id: '3', key: 'Email', value: 'john.doe@example.com', isEditing: false },
+    ]);
+  }
 
-    const allKvps: Kvp[] = [];
-    const lines = docContent.split('\n');
+  createKvp(docId: string, kvp: KeyValuePair): Observable<any> {
+    return of(null);
+  }
 
-    for (const line of lines) {
-      const parts = line.split(':');
-      if (parts.length === 2) {
-        const key = parts[0].trim();
-        const value = parts[1].trim();
-        allKvps.push({ key, value });
-      }
-    }
+  updateKvp(kvp: KeyValuePair): Observable<any> {
+    return of(null);
+  }
 
-    const lowerCasePrompt = prompt.toLowerCase();
-    
-    // If prompt is generic, return all found KVPs
-    if (lowerCasePrompt.includes('all') || lowerCasePrompt.includes('everything') || lowerCasePrompt.includes('extract')) {
-      return allKvps;
-    }
+  deleteKvp(docId: string, kvpId: string): Observable<any> {
+    return of(null);
+  }
 
-    // Otherwise, filter for KVPs mentioned in the prompt
-    const requestedKvps = allKvps.filter(kvp => 
-      lowerCasePrompt.includes(kvp.key.toLowerCase().replace('#', ''))
-    );
-    
-    if (requestedKvps.length > 0) {
-      return requestedKvps;
-    }
-    
-    // If no specific keys were matched from the prompt, return an empty array.
-    return [];
+  extractKvps(docContent: string, prompt: string): Observable<KeyValuePair[]> {
+    return this.http.post<KeyValuePair[]>('/api/v1/kvp/extract', { docContent, prompt });
   }
 }

@@ -1,32 +1,64 @@
 <div class="kvp-editor">
-  <table>
-    <thead>
-      <tr>
-        <th>Key</th>
-        <th>Value</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for(kvp of kvps(); track kvp.key) {
+    <h2>Key-Value Pairs</h2>
+  
+    <div class="actions">
+      <button (click)="createKvp()">Add KVP</button>
+      <div class="extract-kvp">
+        <input #extractPrompt type="text" placeholder="e.g., 'Extract all names and addresses'">
+        <button (click)="extract.emit(extractPrompt.value)">Extract KVPs</button>
+      </div>
+    </div>
+  
+    <table>
+      <thead>
         <tr>
-          @if(editingKvp() === kvp) {
-            <td><input [value]="editedKey()" (input)="editedKey.set($event.target.value)"></td>
-            <td><input [value]="editedValue()" (input)="editedValue.set($event.target.value)"></td>
-            <td>
-              <button (click)="onSave(kvp)">Save</button>
-              <button (click)="onCancel()">Cancel</button>
-            </td>
-          } @else {
-            <td>{{ kvp.key }}</td>
-            <td>{{ kvp.value }}</td>
-            <td>
-              <button (click)="onEdit(kvp)">Edit</button>
-              <button (click)="onDelete(kvp)">Delete</button>
-            </td>
-          }
+          <th>Key</th>
+          <th>Value</th>
+          <th>Actions</th>
         </tr>
-      }
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        @for (kvp of kvps(); track kvp.id) {
+          <tr>
+            <td>
+              @if (kvp.isEditing) {
+                <input type="text" [value]="kvp.key" (input)="updateKvpKey(kvp, $event)">
+              } @else {
+                {{ kvp.key }}
+              }
+            </td>
+            <td>
+              @if (kvp.isEditing) {
+                <input type="text" [value]="kvp.value" (input)="updateKvpValue(kvp, $event)">
+              } @else {
+                {{ kvp.value }}
+              }
+            </td>
+            <td>
+              @if (kvp.isEditing) {
+                <button (click)="saveKvp(kvp)">Save</button>
+                <button (click)="cancelEdit(kvp)">Cancel</button>
+              } @else {
+                <button (click)="editKvp(kvp)">Edit</button>
+                <button (click)="deleteKvp(kvp)">Delete</button>
+              }
+            </td>
+          </tr>
+        }
+        @if (newKvp()) {
+          <tr>
+            <td>
+              <input type="text" [value]="newKvp()!.key" (input)="updateNewKvpKey($event)">
+            </td>
+            <td>
+              <input type="text" [value]="newKvp()!.value" (input)="updateNewKvpValue($event)">
+            </td>
+            <td>
+              <button (click)="saveNewKvp()">Save</button>
+              <button (click)="cancelNewKvp()">Cancel</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>

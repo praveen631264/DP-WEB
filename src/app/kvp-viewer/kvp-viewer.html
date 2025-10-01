@@ -1,0 +1,11 @@
+<div class="kvp-viewer-container">
+  <h2>Extracted Data</h2>
+  <div class="kvp-list">
+    @for (kvp of kvps(); track kvp.id) {
+      <div class="kvp-item">
+        <label [for]="kvp.id">{{ kvp.key }}</label>
+        <input [id]="kvp.id" [value]="kvp.value" (change)="onValueChange(kvp, $event.target.value)" />
+      </div>
+    }
+  </div>
+</div>
