@@ -1,0 +1,145 @@
+.document-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 20px;
+  height: 100%;
+}
+
+.kvp-editor-panel, .document-viewer-panel, .chat-panel {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin: 10px 0;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-input {
+  display: flex;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.chat-input button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.message {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  max-width: 80%;
+}
+
+.user-message {
+  background-color: #e1f5fe;
+  align-self: flex-end;
+}
+
+.ai-message {
+  background-color: #fce4ec;
+  align-self: flex-start;
+}
+
+.smart-replies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.smart-replies button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 8px 12px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.smart-replies button:hover {
+  background-color: #e0e0e0;
+}
+
+.feedback-button {
+  background-color: #d0e0ff;
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+.feedback-button:hover {
+  background-color: #b0c0e0;
+}
+
+.feedback-form {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.feedback-form h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.feedback-form textarea {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.feedback-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.feedback-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.feedback-actions button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.feedback-actions button:last-child {
+  background-color: #ccc;
+}

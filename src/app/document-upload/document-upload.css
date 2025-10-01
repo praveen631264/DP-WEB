@@ -1,0 +1,23 @@
+.upload-container {
+  text-align: center;
+}
+
+.drop-zone {
+  border: 2px dashed #007bff;
+  border-radius: 8px;
+  padding: 40px 20px;
+  cursor: pointer;
+}
+
+.drop-zone:hover {
+  background-color: #f0f8ff;
+}
+
+.drop-zone button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}

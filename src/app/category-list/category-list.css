@@ -1,0 +1,26 @@
+.category-list {
+  margin-top: 2rem;
+}
+
+.category-list h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ccc;
+}
+
+.category-list a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #ccc;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.category-list a:hover,
+.category-list a.active {
+  background-color: #333;
+  color: #fff;
+}

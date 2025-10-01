@@ -1,0 +1,20 @@
+<div class="sidebar-container">
+  <nav class="main-nav">
+    <ul>
+      <li><a routerLink="/">Dashboard</a></li>
+      <li><a routerLink="/documents">Documents</a></li>
+      <li><a routerLink="/chat">Global Chat</a></li>
+    </ul>
+  </nav>
+  
+  <div class="categories">
+    <h3>Categories</h3>
+    <ul>
+      @for(category of categories; track category.id) {
+        <li><a [routerLink]="['/documents']" [queryParams]="{ category: category.id }">{{ category.name }}</a></li>
+      }
+    </ul>
+  </div>
+
+  <a routerLink="/trash" class="trash-link">Trash</a>
+</div>

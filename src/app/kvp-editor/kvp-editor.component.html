@@ -1,0 +1,32 @@
+<div class="kvp-editor">
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Value</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(kvp of kvps(); track kvp.key) {
+        <tr>
+          @if(editingKvp() === kvp) {
+            <td><input [value]="editedKey()" (input)="editedKey.set($event.target.value)"></td>
+            <td><input [value]="editedValue()" (input)="editedValue.set($event.target.value)"></td>
+            <td>
+              <button (click)="onSave(kvp)">Save</button>
+              <button (click)="onCancel()">Cancel</button>
+            </td>
+          } @else {
+            <td>{{ kvp.key }}</td>
+            <td>{{ kvp.value }}</td>
+            <td>
+              <button (click)="onEdit(kvp)">Edit</button>
+              <button (click)="onDelete(kvp)">Delete</button>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

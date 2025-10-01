@@ -1,0 +1,38 @@
+.sidebar-container {
+  background-color: #f3f4f6;
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  margin-bottom: 0.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: #374151;
+}
+
+.sidebar-container > a {
+  margin-top: auto;
+  text-decoration: none;
+  color: #374151;
+}

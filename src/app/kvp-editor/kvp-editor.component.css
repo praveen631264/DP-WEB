@@ -1,0 +1,18 @@
+.kvp-editor table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.kvp-editor th, .kvp-editor td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.kvp-editor th {
+  background-color: #f2f2f2;
+}
+
+.kvp-editor button {
+  margin-right: 5px;
+}

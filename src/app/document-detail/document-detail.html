@@ -1,0 +1,8 @@
+<div>
+    @if (document) {
+    <h2>{{ document.filename }}</h2>
+    <p>Category: {{ document.category }}</p>
+    <p>Uploaded: {{ document.metadata.uploaded_at }}</p>
+    <p>Status: {{ document.metadata.processing_status }}</p>
+    }
+</div>

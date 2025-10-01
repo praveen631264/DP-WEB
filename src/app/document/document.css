@@ -1,0 +1,63 @@
+.document-detail-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 20px;
+  height: calc(100vh - 120px);
+  padding: 20px;
+}
+
+.kvp-editor-panel, .doc-viewer-panel, .chat-panel {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.kvp-list {
+  margin-top: 15px;
+}
+
+.kvp-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.doc-header h1 {
+  margin-top: 0;
+}
+
+.doc-meta {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 15px;
+}
+
+.doc-content pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.doc-actions {
+  margin-top: 20px;
+}
+
+.edit-link, .delete-btn {
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.edit-link {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}

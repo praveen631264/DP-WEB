@@ -1,0 +1,37 @@
+
+<div class="document-list-container">
+  <header class="document-header">
+    <h1>Documents</h1>
+    <div class="header-actions">
+      <input class="search-input" type="text" placeholder="Search by title..." (input)="onSearch($event)">
+      <button class="new-doc-button" routerLink="/documents/new">+ New Document</button>
+    </div>
+  </header>
+
+  <div class="category-filters">
+    <button (click)="filterByCategory(null)" [class.active]="!category()">All</button>
+    @for (cat of categories(); track cat) {
+      <button (click)="filterByCategory(cat)" [class.active]="category() === cat">{{ cat }}</button>
+    }
+  </div>
+
+  <div class="document-grid">
+    @for (doc of documents(); track doc.id) {
+      <div class="document-card" [routerLink]="['/documents', doc.id]">
+        <div class="card-content">
+          <h3 class="card-title">{{ doc.title }}</h3>
+          <p class="card-category">{{ doc.category }}</p>
+        </div>
+        <div class="card-footer">
+          <p class="card-date">{{ doc.lastModified | date: 'mediumDate' }}</p>
+        </div>
+      </div>
+    } @empty {
+      <div class="no-documents">
+        <span class="no-docs-icon">📄</span>
+        <p>No documents found.</p>
+        <button class="create-doc-button" routerLink="/documents/new">Create a new document</button>
+      </div>
+    }
+  </div>
+</div>

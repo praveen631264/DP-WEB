@@ -1,0 +1,19 @@
+<form [formGroup]="docForm" (ngSubmit)="saveDocument()">
+  <div>
+    <label for="filename">Filename</label>
+    <input id="filename" formControlName="filename">
+  </div>
+  <div>
+    <label for="category">Category</label>
+    <select id="category" formControlName="category">
+      @for (category of categories) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </div>
+  <div>
+    <label for="content">Content</label>
+    <textarea id="content" formControlName="content"></textarea>
+  </div>
+  <button type="submit" [disabled]="docForm.invalid">Save</button>
+</form>

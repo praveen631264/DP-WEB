@@ -1,0 +1,13 @@
+.recent-documents-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.recent-documents-list li a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.recent-documents-list li a:hover {
+  text-decoration: underline;
+}

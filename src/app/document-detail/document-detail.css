@@ -1,0 +1,12 @@
+.document-content {
+  padding: 20px;
+}
+
+.document-content h2 {
+  margin-bottom: 20px;
+}
+
+.document-content img {
+  max-width: 100%;
+  border-radius: 8px;
+}

@@ -1,0 +1,62 @@
+@if(doc) {
+  <div class="document-container">
+    <div class="kvp-editor-panel">
+      <h3>Key-Value Pairs</h3>
+      <app-kvp-editor 
+        [kvps]="kvps()" 
+        (deleteKvp)="handleDeleteKvp($event)"
+        (updateKvp)="handleUpdateKvp($event)">
+      </app-kvp-editor>
+    </div>
+    <div class="document-viewer-panel">
+      <div class="document-header">
+        <h1>{{ doc.title }}</h1>
+        <div>
+          <button [routerLink]="['/documents', doc.id, 'edit']">Edit</button>
+          <button (click)="deleteDocument()">Delete</button>
+        </div>
+      </div>
+      <div class="document-content">
+        {{ doc.content }}
+      </div>
+    </div>
+    <div class="chat-panel">
+      <div class="chat-header">
+        <h3>Chat with {{ doc.title }}</h3>
+      </div>
+      <div class="chat-messages">
+        @for(message of messages(); track message.text) {
+          <div class="message" [class.user-message]="message.sender === 'user'" [class.ai-message]="message.sender === 'ai'">
+            <p>{{ message.text }}</p>
+          </div>
+        }
+      </div>
+      @if(smartReplies().length > 0 && !showFeedbackForm()) {
+        <div class="smart-replies">
+          @for(reply of smartReplies(); track reply) {
+            <button (click)="sendSmartReply(reply)">{{ reply }}</button>
+          }
+          <button class="feedback-button" (click)="toggleFeedbackForm()">Provide Feedback</button>
+        </div>
+      }
+
+      @if(showFeedbackForm()) {
+        <div class="feedback-form">
+          <h4>Provide Feedback on Smart Replies</h4>
+          <textarea #feedbackComment placeholder="Your feedback..."></textarea>
+          <div class="feedback-actions">
+            <button (click)="submitFeedback(feedbackComment.value)">Submit Feedback</button>
+            <button (click)="toggleFeedbackForm()">Cancel</button>
+          </div>
+        </div>
+      }
+
+      <div class="chat-input">
+        <input type="text" placeholder="Ask a question..." [value]="chatInput()" (input)="chatInput.set($event.target.value)" (keyup.enter)="sendMessage()">
+        <button (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+} @else {
+  <p>Document not found.</p>
+}

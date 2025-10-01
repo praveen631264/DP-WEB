@@ -1,0 +1,20 @@
+.trash-container {
+  padding: 20px;
+}
+
+.trash-list {
+  list-style: none;
+  padding: 0;
+}
+
+.trash-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.trash-item button {
+  margin-left: 10px;
+}

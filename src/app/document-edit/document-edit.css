@@ -1,0 +1,101 @@
+.document-edit-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.edit-header {
+  border-bottom: 2px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.edit-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.edit-form .form-field {
+  margin-bottom: 1.5rem;
+}
+
+.edit-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.edit-form input,
+.edit-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.edit-form input:focus,
+.edit-form select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.action-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.action-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.action-button.secondary {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.action-button.secondary:hover {
+  background-color: #e0e0e0;
+}
+
+.action-button:not(.secondary) {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.action-button:not(.secondary):hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.document-not-found {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.document-not-found h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.document-not-found p {
+  margin-bottom: 2rem;
+}

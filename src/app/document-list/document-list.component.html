@@ -1,0 +1,5 @@
+<ul>
+  @for (doc of documents) {
+    <li><a [routerLink]="['/documents', doc.id]">{{ doc.filename }}</a></li>
+  }
+</ul>

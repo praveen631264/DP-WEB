@@ -1,0 +1,17 @@
+<div class="trash-container">
+  <h2>Trash</h2>
+  @if (trashedDocuments().length === 0) {
+    <p>The trash is empty.</p>
+  } @else {
+    <ul class="document-list">
+      @for (doc of trashedDocuments(); track doc.id) {
+        <li class="document-list-item">
+          <span>{{ doc.title }}</span>
+          <div class="doc-actions">
+            <button class="restore-btn" (click)="restoreDocument(doc)">Restore</button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>

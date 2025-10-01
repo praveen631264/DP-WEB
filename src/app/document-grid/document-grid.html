@@ -1,0 +1,11 @@
+<div class="document-grid-container">
+  <h2>Documents</h2>
+  <div class="document-grid">
+    @for(doc of documents; track doc.id) {
+      <a [routerLink]="['/documents', doc.id]" class="document-card">
+        <h3>{{ doc.title }}</h3>
+        <p>Category: {{ doc.category }}</p>
+      </a>
+    }
+  </div>
+</div>

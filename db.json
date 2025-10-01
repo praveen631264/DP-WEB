@@ -1,0 +1,48 @@
+
+{
+  "documents": [
+    {
+      "id": 1,
+      "filename": "invoice-123.pdf",
+      "category": "Invoices",
+      "deleted": false,
+      "metadata": {
+        "uploaded_at": "2023-10-27T10:00:00Z",
+        "processing_status": "completed",
+        "kvp": {
+          "total_amount": "500.00",
+          "due_date": "2023-11-10"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "filename": "contract-final.docx",
+      "category": "Contracts",
+      "deleted": false,
+      "metadata": {
+        "uploaded_at": "2023-10-26T15:30:00Z",
+        "processing_status": "completed",
+        "kvp": {
+          "client_name": "ACME Corp",
+          "effective_date": "2023-11-01"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "filename": "receipt-supermarket.jpg",
+      "category": "Uncategorized",
+      "deleted": true,
+      "metadata": {
+        "uploaded_at": "2023-10-25T12:00:00Z",
+        "processing_status": "pending"
+      }
+    }
+  ],
+  "categories": [
+    { "id": 1, "name": "Invoices" },
+    { "id": 2, "name": "Contracts" },
+    { "id": 3, "name": "New Legal Agreements" }
+  ]
+}
