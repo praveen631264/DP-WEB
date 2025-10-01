@@ -1,0 +1,13 @@
+<div class="chat-container">
+  <div class="chat-history">
+    @for(message of chatHistory().messages; track message.text){
+      <div class="message" [class.user-message]="message.author === 'user'" [class.ai-message]="message.author === 'ai'">
+        <p>{{ message.text }}</p>
+      </div>
+    }
+  </div>
+  <div class="chat-input">
+    <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Type your message...">
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>

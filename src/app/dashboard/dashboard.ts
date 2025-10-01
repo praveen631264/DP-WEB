@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DashboardService } from '../dashboard.service';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,5 +11,5 @@ import { Observable } from 'rxjs';
 })
 export class DashboardComponent {
   private dashboardService = inject(DashboardService);
-  stats$ = this.dashboardService.getDashboardStats();
+  stats = this.dashboardService.getDashboardStats();
 }

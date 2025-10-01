@@ -1,0 +1,14 @@
+.grid-item-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.grid-item-thumbnail img {
+  max-width: 100%;
+}
+
+.grid-item-title {
+  margin-top: 10px;
+  font-weight: bold;
+}

@@ -1,21 +1,19 @@
-import { Injectable, signal } from '@angular/core';
-
-export interface Category {
-  id: string;
-  name: string;
-}
+import { Injectable, computed, inject } from '@angular/core';
+import { Document, DocumentService } from './document.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private categories = signal<Category[]>([
-    { id: '1', name: 'Personal' },
-    { id: '2', name: 'Work' },
-    { id: '3', name: 'Travel' }
-  ]);
+  private documentService = inject(DocumentService);
+
+  public categories = computed(() => {
+    const docs = this.documentService.getDocuments()();
+    const categories = docs.map((doc: Document) => doc.category);
+    return ['All', ...new Set(categories)];
+  });
 
   getCategories() {
-    return this.categories();
+    return this.categories;
   }
 }

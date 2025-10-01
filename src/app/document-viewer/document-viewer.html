@@ -1,8 +1,9 @@
-@if (document(); as doc) {
-  <div class="container">
-    <div class="header">{{ doc.filename }}</div>
-    <div class="doc-content">{{ doc.content }}</div>
-  </div>
-} @else {
-  <p>No document selected.</p>
-}
+<div class="document-viewer">
+  @if (document()) {
+    <div class="document-content">
+      {{ document()?.content }}
+    </div>
+  } @else {
+    <p>No document loaded.</p>
+  }
+</div>

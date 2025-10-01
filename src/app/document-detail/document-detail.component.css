@@ -1,0 +1,12 @@
+.document-detail-container {
+  display: flex;
+  gap: 20px;
+}
+
+.document-viewer {
+  flex: 2;
+}
+
+.chat-container {
+  flex: 1;
+}

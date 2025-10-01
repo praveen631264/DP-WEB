@@ -1,18 +1,15 @@
 <div class="trash-container">
   <h2>Trash</h2>
-  @if(trashedDocuments.length > 0) {
-    <ul class="trash-list">
-      @for(doc of trashedDocuments; track doc.id) {
-        <li class="trash-item">
-          <span>{{ doc.filename }}</span>
-          <div>
-            <button (click)="restoreDocument(doc.id)">Restore</button>
-            <button (click)="permanentlyDeleteDocument(doc.id)">Delete Permanently</button>
-          </div>
-        </li>
-      }
-    </ul>
-  } @else {
-    <p>The trash is empty.</p>
-  }
+  <p>Documents in the trash will be permanently deleted after 30 days.</p>
+  <div class="trash-list">
+    @for (doc of trash(); track doc.id) {
+      <div class="trash-item">
+        <span>{{ doc.title }}</span>
+        <div class="trash-item-actions">
+          <button>Restore</button>
+          <button>Delete Permanently</button>
+        </div>
+      </div>
+    }
+  </div>
 </div>

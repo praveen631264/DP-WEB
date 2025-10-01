@@ -1,45 +1,21 @@
-<div class="document-detail-container">
-  @if (document(); as doc) {
-    <!-- Panel 1: KVP Editor -->
-    <div class="kvp-editor-panel">
-      <h2>Key-Value Pairs</h2>
-      <div class="kvp-list">
-        @for(kvp of doc.metadata.kvp; track kvp.key) {
-          <div class="kvp-item">
-            <span class="kvp-key">{{ kvp.key }}:</span>
-            <span class="kvp-value">{{ kvp.value }}</span>
-          </div>
-        } @empty {
-          <p>No Key-Value Pairs extracted.</p>
-        }
-      </div>
+<div class="document-container">
+  @if (doc(); as document) {
+    <div class="document-header">
+        <h1>{{ document.title }}</h1>
+        <p>{{ document.title }}</p>
     </div>
-
-    <!-- Panel 2: Document Viewer -->
-    <div class="doc-viewer-panel">
-      <div class="doc-header">
-        <h1>{{ doc.filename }}</h1>
-        <div class="doc-meta">
-          <span class="meta-item">{{ doc.category }}</span>
-        </div>
-      </div>
-      <div class="doc-content">
-        <pre>{{ doc.content }}</pre>
-      </div>
-      <div class="doc-actions">
-        <a class="edit-link" [routerLink]="['/documents', doc.id, 'edit']">Edit</a>
-        <button class="delete-btn" (click)="deleteDocument(doc)">Delete</button>
-      </div>
+    <div class="document-content">
+        <p>{{ document.content }}</p>
     </div>
-
-    <!-- Panel 3: Document-Specific AI Chat -->
-    <div class="chat-panel">
-      <app-chat [chatHistory]="[]"></app-chat>
-    </div>
-
-  } @else {
-    <div class="no-document">
-      <p>Please select a document to view its contents.</p>
-    </div>
+    @if (document.kvps) {
+      <div class="document-kvps">
+          <h2>Key-Value Pairs</h2>
+          <ul>
+              @for (kvp of document.kvps; track kvp.key) {
+                <li><strong>{{ kvp.key }}:</strong> {{ kvp.value }}</li>
+              }
+          </ul>
+      </div>
+    }
   }
 </div>

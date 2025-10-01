@@ -10,8 +10,15 @@
   <div class="categories">
     <h3>Categories</h3>
     <ul>
-      @for(category of categories; track category.id) {
-        <li><a [routerLink]="['/documents']" [queryParams]="{ category: category.id }">{{ category.name }}</a></li>
+      @for(category of categories(); track category) {
+        <li>
+          <a 
+            [routerLink]="['/documents']" 
+            [queryParams]="{ category: category === 'All' ? null : category }"
+            [class.active]="queryParams()?.['category'] === category">
+            {{ category }}
+          </a>
+        </li>
       }
     </ul>
   </div>

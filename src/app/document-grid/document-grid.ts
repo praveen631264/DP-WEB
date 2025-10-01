@@ -1,33 +1,27 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { DocumentService } from '../document.service';
-import { Document } from '../models/document.model';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { DocumentService, Document } from '../document.service';
+import { DocumentGridItem } from '../document-grid-item/document-grid-item.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-document-grid', // Updated selector
-  imports: [CommonModule, RouterModule],
+  selector: 'app-document-grid',
+  imports: [DocumentGridItem, CommonModule, RouterModule],
   templateUrl: './document-grid.html',
   styleUrls: ['./document-grid.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DocumentGrid {
-  private route = inject(ActivatedRoute);
+  categoryId = input<string>();
   private documentService = inject(DocumentService);
-  documents: Document[] = [];
+  private allDocuments = this.documentService.getDocuments()();
 
-  constructor() {
-    this.route.queryParams.subscribe(params => {
-      const categoryId = params['category'];
-      if (categoryId) {
-        this.documentService.getDocuments(categoryId).subscribe(documents => {
-          this.documents = documents;
-        });
-      } else {
-        this.documentService.getDocuments().subscribe(documents => {
-          this.documents = documents;
-        });
-      }
-    });
-  }
+  documents = computed(() => {
+    const categoryId = this.categoryId();
+    if (categoryId && categoryId !== 'All') {
+      return this.allDocuments.filter((doc: Document) => doc.category === categoryId);
+    } else {
+      return this.allDocuments;
+    }
+  });
 }

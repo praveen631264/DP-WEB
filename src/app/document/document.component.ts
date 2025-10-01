@@ -1,37 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { DocumentService } from '../document.service';
-import { Document } from '../models/document.model';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { DocumentService, Document } from '../document.service';
 import { CommonModule } from '@angular/common';
-import { ChatComponent } from '../chat/chat.component';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-document',
+  imports: [CommonModule],
   templateUrl: './document.html',
   styleUrls: ['./document.css'],
-  imports: [CommonModule, RouterLink, ChatComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DocumentComponent {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  doc = input<Document>();
   private documentService = inject(DocumentService);
 
-  document = toSignal(
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        const id = params.get('id');
-        return this.documentService.getDocument(id!);
-      })
-    )
-  );
-
-  deleteDocument(doc: Document) {
-    if (confirm(`Are you sure you want to delete ${doc.title}?`)) {
-      this.documentService.deleteDocument(doc);
-      this.router.navigate(['/documents']);
-    }
-  }
+  constructor() {}
 }

@@ -1,0 +1,15 @@
+@if (state.loading()) {
+  <p>Loading...</p>
+} @else if (state.error()) {
+  <p>{{ state.error() }}</p>
+} @else if (state.document(); as doc) {
+  <div class="document-detail-container">
+    <div class="document-viewer">
+      <h2>{{ doc.title }}</h2>
+      <p>{{ doc.content }}</p>
+    </div>
+    <div class="chat-container">
+        <app-chat />
+    </div>
+  </div>
+}

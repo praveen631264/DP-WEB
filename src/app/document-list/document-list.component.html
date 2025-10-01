@@ -1,5 +1,9 @@
+<app-category-filter [categories]="categories()" (categorySelected)="onCategorySelected($event)" />
+<input type="text" (input)="onSearch($event)" placeholder="Search documents...">
 <ul>
-  @for (doc of documents; track doc.id) {
-    <li><a [routerLink]="['/documents', doc.id]">{{ doc.filename }}</a></li>
+  @for (doc of filteredDocuments(); track doc.id) {
+    <li>
+      <app-document-list-item [document]="doc" />
+    </li>
   }
 </ul>

@@ -1,13 +1,16 @@
-.container {
-  padding: 20px;
+.document-viewer {
+  position: relative;
+  padding: 1rem;
 }
 
-.header {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
+.document-content {
+  position: relative;
+  white-space: pre-wrap;
 }
 
-.doc-content {
-  width: 100%;
+.highlight {
+  position: absolute;
+  background-color: rgba(255, 255, 0, 0.5);
+  border: 1px solid yellow;
+  z-index: 10;
 }

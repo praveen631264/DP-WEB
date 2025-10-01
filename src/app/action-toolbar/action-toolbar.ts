@@ -1,11 +1,16 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 
 @Component({
   selector: 'app-action-toolbar',
-  imports: [],
   templateUrl: './action-toolbar.html',
-  styleUrl: './action-toolbar.css'
+  styleUrls: ['./action-toolbar.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionToolbar {
+  extract = output<string>();
 
+  onExtract() {
+    const prompt = "Extract key-value pairs from the document."; // Replace with a more sophisticated prompt if needed
+    this.extract.emit(prompt);
+  }
 }

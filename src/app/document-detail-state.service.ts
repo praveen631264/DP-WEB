@@ -1,111 +1,109 @@
-
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EMPTY, Observable, switchMap, tap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Document, DocumentService } from './document.service';
 import { KeyValuePair, KvpService } from './kvp.service';
-import { ChatMessage } from './chat.model';
-import { ChatService } from './chat.service';
 
+// Represents the state for the document detail view
 interface DocumentDetailState {
   document: Document | null;
   kvps: KeyValuePair[];
-  chatHistory: ChatMessage[];
+  loading: boolean;
+  error: string | null;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentDetailStateService {
+  // Services
   private documentService = inject(DocumentService);
   private kvpService = inject(KvpService);
-  private chatService = inject(ChatService);
   private route = inject(ActivatedRoute);
 
+  // State signal
   private state = signal<DocumentDetailState>({
     document: null,
     kvps: [],
-    chatHistory: [],
+    loading: true,
+    error: null,
   });
 
+  // Selectors
   document = computed(() => this.state().document);
   kvps = computed(() => this.state().kvps);
-  chatHistory = computed(() => this.state().chatHistory);
+  loading = computed(() => this.state().loading);
+  error = computed(() => this.state().error);
+
+  private paramMap = toSignal(this.route.paramMap);
 
   constructor() {
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        const docId = params.get('doc_id');
-        if (docId) {
-          return this.loadDocument(docId);
+    effect(() => {
+      const docId = this.paramMap()?.get('doc_id');
+      if (docId) {
+        const doc = this.documentService.getDocument(docId)();
+        if (doc) {
+          this.state.update(s => ({
+            ...s,
+            document: doc,
+            kvps: doc.kvps || [],
+            loading: false,
+          }));
         } else {
-          return EMPTY;
+          this.state.update(s => ({ ...s, loading: false, error: 'Document not found.' }));
         }
-      })
-    ).subscribe();
-  }
-
-  loadDocument(docId: string): Observable<Document> {
-    return this.documentService.getDocument(docId).pipe(
-      tap(document => {
-        this.state.update(state => ({ ...state, document }));
-        this.loadKvps(docId);
-        this.loadChatHistory(docId);
-      })
-    );
-  }
-
-  loadKvps(docId: string) {
-    this.kvpService.getKvps(docId).subscribe(kvps => {
-      this.state.update(state => ({ ...state, kvps }));
+      }
     });
   }
 
-  loadChatHistory(docId: string) {
-    this.chatService.getChatHistory(docId).subscribe(chatHistory => {
-      this.state.update(state => ({ ...state, chatHistory }));
-    });
+  // --- KVP OPERATIONS (with API alignment) ---
+
+  createKvp(kvp: Partial<KeyValuePair>) {
+    const newKvp: KeyValuePair = {
+      id: crypto.randomUUID(), // Create a temporary ID for the UI
+      key: kvp.key || '',
+      value: kvp.value || '',
+      isEditing: true, // Start in editing mode
+    };
+
+    this.state.update(s => ({ ...s, kvps: [...s.kvps, newKvp] }));
+    this.syncKvps();
   }
 
-  updateKvp(kvp: KeyValuePair) {
-    this.kvpService.updateKvp(kvp).subscribe(() => {
-      this.loadKvps(this.document()!.id);
-    });
-  }
-
-  createKvp(kvp: KeyValuePair) {
-    const docId = this.document()!.id;
-    this.kvpService.createKvp(docId, kvp).subscribe(() => {
-      this.loadKvps(docId);
-    });
-  }
-
-  deleteKvp(kvp: KeyValuePair) {
-    const docId = this.document()!.id;
-    this.kvpService.deleteKvp(docId, kvp.id).subscribe(() => {
-      this.loadKvps(docId);
-    });
-  }
-
-  getKvp(id: string): KeyValuePair | undefined {
-    return this.kvps().find(kvp => kvp.id === id);
-  }
-
-  sendMessage(message: string) {
-    const docId = this.document()!.id;
-    const userMessage: ChatMessage = { role: 'user', content: message };
-    this.state.update(state => ({ ...state, chatHistory: [...state.chatHistory, userMessage]}));
+  updateKvp(updatedKvp: KeyValuePair) {
+    const currentKvps = this.state().kvps;
+    const newKvps = currentKvps.map(k => k.id === updatedKvp.id ? { ...k, ...updatedKvp, isEditing: false } : k);
     
-    this.chatService.sendMessage(docId, message).subscribe(response => {
-      const aiMessage: ChatMessage = { role: 'ai', content: response.answer };
-      this.state.update(state => ({ ...state, chatHistory: [...state.chatHistory, aiMessage]}));
-    });
+    this.state.update(s => ({ ...s, kvps: newKvps }));
+    this.syncKvps();
+  }
+
+  deleteKvp(kvpToDelete: KeyValuePair) {
+    const newKvps = this.state().kvps.filter(k => k.id !== kvpToDelete.id);
+
+    this.state.update(s => ({ ...s, kvps: newKvps }));
+    this.syncKvps();
   }
 
   extractKvps(prompt: string) {
     const docContent = this.document()?.content ?? '';
-    this.kvpService.extractKvps(docContent, prompt).subscribe(kvps => {
-      this.state.update(state => ({ ...state, kvps: [...state.kvps, ...kvps] }));
+    this.kvpService.extractKvps(docContent, prompt).subscribe(extractedKvps => {
+      const newKvps = [...this.state().kvps, ...extractedKvps];
+      this.state.update(s => ({ ...s, kvps: newKvps }));
+      this.syncKvps();
     });
+  }
+
+  /**
+   * Private helper to synchronize the entire KVP list with the backend.
+   */
+  private syncKvps() {
+    const doc = this.document();
+    if (!doc) return;
+
+    // Strip out the UI-only 'isEditing' property before sending to the backend
+    const kvpsToSync = this.state().kvps.map(({ isEditing, ...rest }) => rest);
+
+    this.kvpService.updateAllKvps(doc.id, kvpsToSync).subscribe();
   }
 }

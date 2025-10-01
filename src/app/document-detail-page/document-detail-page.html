@@ -1,9 +1,0 @@
-<div class="document-detail-container">
-    <div class="main-content">
-      <app-document-detail [document]="(document() | async)!" (extract)="extractKvps($event)"></app-document-detail>
-    </div>
-    <div class="sidebar">
-      <app-action-toolbar></app-action-toolbar>
-      <app-metadata-sidebar [document]="(document() | async)!"></app-metadata-sidebar>
-    </div>
-  </div>

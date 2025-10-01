@@ -1,0 +1,6 @@
+<div class="list-item-container">
+  <a [routerLink]="['/document', document().id]">
+    <div class="list-item-title">{{ document().title }}</div>
+    <div class="list-item-summary">{{ document().content.substring(0, 100) }}...</div>
+  </a>
+</div>

@@ -2,47 +2,67 @@
 {
   "documents": [
     {
-      "id": 1,
+      "id": "1",
       "filename": "invoice-123.pdf",
       "category": "Invoices",
       "deleted": false,
-      "metadata": {
-        "uploaded_at": "2023-10-27T10:00:00Z",
-        "processing_status": "completed",
-        "kvp": {
-          "total_amount": "500.00",
-          "due_date": "2023-11-10"
+      "content": "Sample invoice content for document 1. Total amount is $500.00, due on 2023-11-10.",
+      "kvps": [
+        {
+          "id": "kvp-1-1",
+          "key": "total_amount",
+          "value": "500.00",
+          "location": { "page": 1, "bbox": [100, 200, 250, 220] }
+        },
+        {
+          "id": "kvp-1-2",
+          "key": "due_date",
+          "value": "2023-11-10",
+          "location": { "page": 1, "bbox": [100, 230, 250, 250] }
         }
-      }
+      ]
     },
     {
-      "id": 2,
+      "id": "2",
       "filename": "contract-final.docx",
       "category": "Contracts",
       "deleted": false,
-      "metadata": {
-        "uploaded_at": "2023-10-26T15:30:00Z",
-        "processing_status": "completed",
-        "kvp": {
-          "client_name": "ACME Corp",
-          "effective_date": "2023-11-01"
+      "content": "This contract is between ACME Corp and us, effective 2023-11-01.",
+      "kvps": [
+        {
+          "id": "kvp-2-1",
+          "key": "client_name",
+          "value": "ACME Corp",
+          "location": { "page": 1, "bbox": [50, 100, 200, 120] }
+        },
+        {
+          "id": "kvp-2-2",
+          "key": "effective_date",
+          "value": "2023-11-01",
+          "location": { "page": 1, "bbox": [50, 130, 200, 150] }
         }
-      }
+      ]
     },
     {
-      "id": 3,
+      "id": "3",
       "filename": "receipt-supermarket.jpg",
       "category": "Uncategorized",
       "deleted": true,
-      "metadata": {
-        "uploaded_at": "2023-10-25T12:00:00Z",
-        "processing_status": "pending"
-      }
+      "content": "",
+      "kvps": []
     }
   ],
   "categories": [
     { "id": 1, "name": "Invoices" },
     { "id": 2, "name": "Contracts" },
     { "id": 3, "name": "New Legal Agreements" }
-  ]
+  ],
+  "chat": {
+    "1": [
+      { "role": "ai", "content": "Welcome to the chat for invoice-123.pdf. How can I help you?" }
+    ],
+    "2": [
+       { "role": "ai", "content": "Welcome to the chat for contract-final.docx. How can I help you?" }
+    ]
+  }
 }

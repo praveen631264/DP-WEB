@@ -1,13 +1,10 @@
-<div class="recent-documents-container">
+<div class="recent-documents">
   <h3>Recent Documents</h3>
-  <div class="document-list">
-    @for (doc of recentDocuments$ | async; track doc.id) {
-      <a [routerLink]="['/documents', doc.id]">
-        <div class="document-item">
-          <p>{{ doc.title }}</p>
-          <p>{{ doc.lastModified | date:'short' }}</p>
-        </div>
-      </a>
+  <ul>
+    @for(doc of recentDocuments(); track doc.id) {
+      <li>
+        <a [routerLink]="['/document', doc.id]">{{ doc.title }}</a>
+      </li>
     }
-  </div>
+  </ul>
 </div>

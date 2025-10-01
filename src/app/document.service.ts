@@ -1,81 +1,69 @@
-import { Injectable, signal } from '@angular/core';
-import { Document } from './models/document.model';
-import { Observable, of } from 'rxjs';
-export type { Document };
+import { Injectable, signal, computed } from '@angular/core';
+
+export interface Document {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  type: 'DOC' | 'PDF' | 'IMG';
+  lastModified: Date;
+  kvps?: any[];
+}
+
+const MOCK_DOCUMENTS: Document[] = [
+  {
+    id: '1',
+    title: 'Client Onboarding',
+    content: 'Client onboarding process document...',
+    category: 'Human Resources',
+    type: 'DOC',
+    lastModified: new Date('2023-10-26'),
+  },
+  {
+    id: '2',
+    title: 'Q3 Financial Report',
+    content: 'Financial report for the third quarter...',
+    category: 'Finance',
+    type: 'PDF',
+    lastModified: new Date('2023-10-20'),
+  },
+  {
+    id: '3',
+    title: 'API Documentation',
+    content: 'Technical documentation for the new API...',
+    category: 'Engineering',
+    type: 'DOC',
+    lastModified: new Date('2023-09-15'),
+  },
+  {
+    id: '4',
+    title: 'Marketing Campaign Plan',
+    content: 'Plan for the upcoming marketing campaign...',
+    category: 'Marketing',
+    type: 'DOC',
+    lastModified: new Date('2023-10-05'),
+  },
+  {
+    id: '5',
+    title: 'Employee Handbook',
+    content: 'Handbook for all employees...',
+    category: 'Human Resources',
+    type: 'PDF',
+    lastModified: new Date('2023-08-01'),
+  }
+];
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
-  private documents = signal<Document[]>([]);
-  private trashedDocuments = signal<Document[]>([]);
+  private documents = signal<Document[]>(MOCK_DOCUMENTS);
 
-  constructor() {
-    // Create mock data
-    const mockDocuments: Document[] = [
-      {
-        id: '1',
-        title: 'My First Document',
-        filename: 'document1.pdf',
-        content: 'This is the content of my first document.',
-        category: 'Work',
-        lastModified: new Date(),
-        metadata: {
-          uploaded_at: new Date().toISOString(),
-          processing_status: 'Complete'
-        }
-      },
-      {
-        id: '2',
-        title: 'My Second Document',
-        filename: 'document2.docx',
-        content: 'This is the content of my second document.',
-        category: 'Personal',
-        lastModified: new Date(),
-        metadata: {
-          uploaded_at: new Date().toISOString(),
-          processing_status: 'Pending'
-        }
-      }
-    ];
-
-    this.documents.set(mockDocuments);
+  getDocuments() {
+    return this.documents.asReadonly();
   }
 
-  getDocuments(categoryId?: string): Observable<Document[]> {
-    if (categoryId) {
-      return of(this.documents().filter(doc => doc.category === categoryId));
-    }
-    return of(this.documents());
-  }
-
-  getDocument(id: string): Observable<Document> {
-    const doc = this.documents().find(doc => doc.id === id);
-    return of(doc!);
-  }
-
-  addDocument(document: Document) {
-    this.documents.set([...this.documents(), document]);
-  }
-
-  deleteDocument(document: Document) {
-    this.documents.set(this.documents().filter(d => d.id !== document.id));
-    this.trashedDocuments.set([...this.trashedDocuments(), document]);
-  }
-
-  getTrashedDocuments() {
-    return this.trashedDocuments();
-  }
-
-  restoreDocument(id: string) {
-    const doc = this.trashedDocuments().find(d => d.id === id);
-    if (doc) {
-      this.trashedDocuments.set(this.trashedDocuments().filter(d => d.id !== id));
-      this.documents.set([...this.documents(), doc]);
-    }
-  }
-
-  permanentlyDeleteDocument(id: string) {
-    this.trashedDocuments.set(this.trashedDocuments().filter(d => d.id !== id));
+  getDocument(id: string) {
+    return computed(() => this.documents().find(doc => doc.id === id));
   }
 }

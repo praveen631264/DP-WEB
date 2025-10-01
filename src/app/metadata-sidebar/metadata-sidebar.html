@@ -1,15 +1,10 @@
 <div class="metadata-container">
   <h3>Metadata</h3>
-  @if (document() && document()?.metadata?.kvp) {
+  @if (document() && document()?.kvps) {
     <ul class="metadata-list">
-        @for (meta of document()?.metadata?.kvp; track meta.key) {
-            <li class="metadata-item">
-                <span class="metadata-key">{{ meta.key }}:</span>
-                <span class="metadata-value">{{ meta.value }}</span>
-            </li>
+        @for (meta of document()?.kvps; track meta.key) {
+            <li><strong>{{ meta.key }}:</strong> {{ meta.value }}</li>
         }
     </ul>
-  } @else {
-    <p>No metadata available.</p>
   }
 </div>

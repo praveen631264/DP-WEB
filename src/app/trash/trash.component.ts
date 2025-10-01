@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { DocumentService } from '../document.service';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Document } from '../document.service';
 
 @Component({
   selector: 'app-trash',
@@ -8,16 +8,22 @@ import { DocumentService } from '../document.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrashComponent {
-  private documentService = inject(DocumentService);
-  trashedDocuments = this.documentService.getTrashedDocuments();
-
-  restoreDocument(id: string) {
-    this.documentService.restoreDocument(id);
-    this.trashedDocuments = this.documentService.getTrashedDocuments();
-  }
-
-  permanentlyDeleteDocument(id: string) {
-    this.documentService.permanentlyDeleteDocument(id);
-    this.trashedDocuments = this.documentService.getTrashedDocuments();
-  }
+  trash = signal<Document[]>([
+    {
+      id: '6',
+      title: 'Old Marketing Proposal',
+      content: '...',
+      category: 'Marketing',
+      type: 'DOC',
+      lastModified: new Date('2022-01-10'),
+    },
+    {
+      id: '7',
+      title: 'Archived Financials',
+      content: '...',
+      category: 'Finance',
+      type: 'PDF',
+      lastModified: new Date('2021-05-20'),
+    },
+  ]);
 }

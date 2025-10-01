@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { Document } from '../models/document.model';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Document } from '../document.service';
+import { KeyValuePair } from '../kvp.service';
 
 @Component({
   selector: 'app-document-viewer',
@@ -9,4 +10,5 @@ import { Document } from '../models/document.model';
 })
 export class DocumentViewer {
   document = input<Document | null>();
+  selectedKvp = input<KeyValuePair | null>();
 }

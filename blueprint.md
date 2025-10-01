@@ -1,42 +1,58 @@
-# Document AI
+# Document Management Application
 
 ## Overview
 
-This application is a powerful Document AI that allows you to upload and interact with your documents in a whole new way. You can ask questions, get summaries, and even extract key information from your files. The app is built with the latest Angular features, including standalone components, signals, and the new control flow syntax.
+This application is a document management tool that allows users to upload, categorize, and manage documents. It also includes a chat interface for interacting with an AI assistant to extract information from the documents.
 
-## Implemented Features
+## Style, Design, and Features
 
-### Phase 1: Project Setup and Initial UI
+### Implemented
 
-*   **Project Initialization:** The project was created using the Angular CLI, with all the necessary dependencies installed.
-*   **Initial UI:** A basic UI was created with a header, a main content area, and a footer. The header includes the application title, and the main content area has a placeholder for the document upload form.
+- **Component-based architecture:** The application is built using Angular and follows a component-based architecture.
+- **Standalone Components:** All components are standalone, promoting modularity and reusability.
+- **Modern Angular Features:** The application leverages modern Angular features like signals, new control flow syntax, and `ChangeDetectionStrategy.OnPush` for optimal performance.
+- **JSON Server:** A simple JSON server is used to mock the backend API.
+- **Basic UI:** The application has a basic UI with a sidebar for navigation and a main content area to display the components.
+- **Interactive KVP Highlighting:** When a user clicks on a key-value pair in the editor, the corresponding location in the document viewer is highlighted.
+- **Search Functionality:** A search bar allows users to filter documents by title and content.
+- **Category Filtering:** Users can filter documents by selecting a category from a list.
+- **AI Chat Interface:** A chat interface allows users to interact with an AI assistant.
 
-### Phase 2: Document Upload and Listing
+---
 
-*   **Document Upload:** A document upload form was created that allows users to select a file from their local machine. The form includes a file input and a submit button.
-*   **Document Listing:** A document list component was created that displays a list of all the documents that have been uploaded. The list includes the document title and a button to view the document.
+## Known Issues
 
-### Phase 3: Document Detail View
+**Critical Build Failure - Document View Inoperable**
 
-*   **Document Detail Component:** A document detail component was created that displays the content of a selected document. The component includes a document viewer and a key-value pair editor.
-*   **Document Viewer:** The document viewer displays the content of the document in a paginated format. The viewer includes controls to navigate between pages.
-*   **Key-Value Pair Editor:** The key-value pair editor allows users to add, edit, and delete key-value pairs associated with the document.
+The application is currently failing to build, which prevents the document views from functioning correctly.
 
-### Phase 4: Interactive Key-Value Editor and Chat
+- **Error Details:** The build process is consistently failing with TypeScript errors `TS7030: Not all code paths return a value` and `TS2678: Type '...' is not comparable to type '...'`. These errors originate from the `getIcon` function within the `document-list.component.ts`.
+- **Attempted Fixes:**
+    1.  Corrected the component's internal data structures (`trash` signal).
+    2.  Refactored the problematic `getIcon` function from a `switch` statement to a more robust object lookup.
+    3.  Validated and corrected the mock data types in `document.service.ts`.
+    4.  Cleared the Angular cache (`ng cache clean`) to eliminate potential stale builds.
+- **Current Status:** Despite these fixes, the build continues to fail with the exact same errors, indicating that the code changes are not being recognized by the build process. This suggests a deeper issue with the development environment's caching or state.
+- **Next Step:** A full restart of the IDE is recommended to resolve the underlying environmental issue.
 
-*   **Interactive Key-Value Editor:** The key-value pair editor was made interactive, allowing users to create, update, and delete key-value pairs.
-*   **Chat Functionality:** A chat component was created that allows users to ask questions about the document and get answers from the AI.
+---
 
-### Phase 5: AI-Powered Key-Value Extraction
+## Development Plan
 
-*   **UI for Key-Value Extraction:** Added a new UI section in the `KvpEditorComponent` that allows users to enter a prompt and initiate the extraction of key-value pairs.
-*   **State Management for Extraction:** Implemented the necessary state management logic in `DocumentDetailStateService` to handle the extraction process. This includes calling the `KvpService` and updating the application's state with the extracted key-value pairs.
-*   **Component Integration:** Connected the `KvpEditorComponent` to the `DocumentDetailPage` to enable the flow of data and events required for the extraction feature.
+### Current Plan
 
-## Current Plan
+**Phase 6: Bug Fixes and Routing**
 
-### Phase 6: Refine and Enhance
+1.  **Restore Routing:** The `app.component.html` was reverted to use the `<router-outlet>`, which will re-enable the proper routing functionality.
+2.  **Set Dashboard as Default:** The `app.routes.ts` was updated to make the `/dashboard` the default route, so it's the first thing you see.
+3.  **Clean Up Imports:** The `DocumentWorkspaceComponent` was removed from the `AppComponent`'s imports, as it's no longer needed there.
 
-*   **Error Handling:** Implement robust error handling for API calls and other asynchronous operations.
-*   **Loading Indicators:** Add loading indicators to provide feedback to the user when data is being fetched or processed.
-*   **UI/UX Polish:** Review and refine the overall user interface and experience.
+### Future Phases
+
+**Phase 7: Refine and Polish**
+
+1.  **Improve UI/UX:** Refine the overall look and feel of the application, including the layout, styling, and user interactions.
+2.  **Enhance Chat Functionality:** Add features like message timestamps, user avatars, and improved message formatting.
+3.  **Implement Real-time Updates:** Use a real-time database like Firestore to enable real-time updates for documents and chat messages.
+4.  **Add Authentication:** Implement user authentication to secure the application and personalize the user experience.
+5.  **Deploy to Firebase:** Deploy the application to Firebase Hosting for easy access and sharing.
